@@ -13,5 +13,5 @@ jobs:
           product-id: 210868  # 替换为你的票务ID
           schedule-id: 20250307 # 替换为你的场次ID
           seat-id: 1_0        # 替换为你的座位ID
-          slack-incoming-webhook-url:https://tkglobal.melon.com/performance/index.htm?langCd=EN&prodId=210868 ${{ secrets.SLACK_WEBHOOK_URL }}
+          slack-incoming-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL:https://tkglobal.melon.com/performance/index.htm?langCd=EN&prodId=210868 }}
           message: '<@你的Slack用户ID> 票来啦！'
