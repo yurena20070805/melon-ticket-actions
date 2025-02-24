@@ -1,17 +1,26 @@
-name: Melon Ticket Check
+name: Melon Ticket Automation
+
 on:
   schedule:
-    - cron: '*/5 * * * *'  # 每5分钟运行一次
+    # 每5分钟运行一次（UTC时间，需换算为韩国时间 UTC+9）
+    - cron: '*/5 * * * *'
+  workflow_dispatch:  # 允许手动触发
+
 jobs:
-  check:
+  reserve-ticket:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 5  # 超时时间
+
     steps:
-      - name: Check Tickets
+      - name: Run Melon Ticket Automation
         uses: mooyoul/melon-ticket-actions@v1.1.0
         with:
-          product-id: 210868  # 替换为你的票务ID
-          schedule-id: 20250307 # 替换为你的场次ID
-          seat-id: 1_0        # 替换为你的座位ID
-          slack-incoming-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL:https://tkglobal.melon.com/performance/index.htm?langCd=EN&prodId=210868 }}
-          message: '<@你的Slack用户ID> 票来啦！'
+          product-id: "210868"     # 对应 CONCERT_ID
+          reservation-id: "100001" # 对应 RESERVATION_ID
+          seat-id: "1_0"           # 座位区编号（根据实际演出页面选择）
+        env:
+          MELON_USERNAME: ${{ secrets.MELON_USERNAME }}
+          MELON_PASSWORD: ${{ secrets.MELON_PASSWORD }}
+          # 可选 Slack 通知（不需要可删除以下两行）
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: '<@U12345678> 抢票状态已更新！'
